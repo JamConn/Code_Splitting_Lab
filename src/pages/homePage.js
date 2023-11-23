@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import { getMovies } from "../api";
 import { useQuery } from "react-query";
-import FilteredMovieList from "../components/filteredMovieList";
+const FilteredMovieList = lazy(() => import("../components/filteredMovieList"));
+
 const HomePage = () => {
   const [searchText, setSearchText] = useState("");
   const [showMovies, setShowMovies] = useState(false);
@@ -33,7 +34,9 @@ const HomePage = () => {
       >
         Show Movies
       </button>
-      {showMovies ? <FilteredMovieList list={filteredList} /> : null}
+      <Suspense fallback={<h1>Building list</h1>}>
+        {showMovies ? <FilteredMovieList list={filteredList} /> : null}
+      </Suspense>
     </>
   );
 };
