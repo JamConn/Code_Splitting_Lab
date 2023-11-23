@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, lazy, Suspense, useEffect } from "react";
 import { useQuery } from "react-query";
 import { getMovieReviews } from "../api";
-import MovieReview from "../components/movieReview";
+const MovieReview = lazy(() => import("../components/movieReview"));
 import { useParams } from "react-router-dom";
 
 const MovieReviewers = (props) => {
@@ -31,9 +31,11 @@ const MovieReviewers = (props) => {
     <>
       <h1>Movie Reviewers</h1>
       <ul>{reviewsAuthors}</ul>
+      <Suspense fallback={<h1>Loading Reviews</h1>}>
       {selectedReview !== undefined ? (
         <MovieReview review={reviews[selectedReview]} />
       ) : null}
+      </Suspense>
     </>
   );
 };

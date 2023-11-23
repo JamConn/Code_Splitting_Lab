@@ -3,8 +3,8 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes, Navigate, Link } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import HomePage from "./pages/homePage";
-import MovieReviewersPage from "./pages/reviewersPage";
+const HomePage = lazy(() => import("./pages/homePage"));
+const MovieReviewersPage = lazy(() => import("./pages/reviewersPage"));
 import "./style.css";
 const MoviePage = lazy(() => import("./pages/movieDetailsPage"));
 
@@ -25,10 +25,7 @@ const App = () => {
         <Link to="/">Home</Link>
         <Suspense fallback={<h1>Loading page</h1>}>
           <Routes>
-            <Route
-              path="/movies/:id/reviewers"
-              element={<MovieReviewersPage />}
-            />
+            <Route path="/movies/:id/reviewers" element={<MovieReviewersPage />}/>
             <Route path="/movies/:id" element={<MoviePage />} />
             <Route exact path="/" element={<HomePage />} />
             <Route path="*" element={<Navigate to="/" />} />
